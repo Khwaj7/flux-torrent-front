@@ -1,12 +1,18 @@
+// src/main.tsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from "./App";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import App from './App.tsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <App/>
-    </React.StrictMode>,
-)
+// Création du client (le cerveau du cache)
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 1000 * 60 * 5, // Les données restent "fraîches" 5 minutes (pas de re-fetch inutile)
+            retry: 1, // Si ça plante, on réessaie 1 seule fois
+        },
+    },
+})
 
 async function enableMocking() {
     const { worker } = await import('./mocks/browser')
@@ -16,7 +22,9 @@ async function enableMocking() {
 enableMocking().then(() => {
     ReactDOM.createRoot(document.getElementById('root')!).render(
         <React.StrictMode>
-            <App />
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
         </React.StrictMode>,
     )
 })

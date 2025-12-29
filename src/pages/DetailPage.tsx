@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import {Magnet, Download, ChevronRight} from 'lucide-react';
+import {ChevronRight, Download, Loader2, Magnet} from 'lucide-react';
+import {useTorrent} from "../services/torrent.ts";
 
 // On définit un type simple pour les onglets
 type TabType = 'desc' | 'files' | 'coms';
@@ -8,6 +9,19 @@ type TabType = 'desc' | 'files' | 'coms';
 export default function DetailPage() {
     const {id} = useParams<{ id: string }>();
     const [activeTab, setActiveTab] = useState<TabType>('desc');
+    const {data: torrent, isLoading, error} = useTorrent(id);
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen text-[var(--primary-accent)]">
+                <Loader2 className="animate-spin w-10 h-10"/>
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div className="text-red-500 text-center pt-20">Erreur : {error.message}</div>;
+    }
 
     return (
         <div className="flex justify-center pt-10 pb-10 min-h-screen">
@@ -26,12 +40,12 @@ export default function DetailPage() {
                     className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8 border-b border-[var(--glass-border)] pb-8">
                     <div>
                         <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                            {id} - Big Buck Bunny 4K Remaster
+                            {id} - {torrent?.name}
                         </h1>
                         <div
                             className="inline-flex items-center gap-2 bg-fuchsia-500/10 px-3 py-1.5 rounded-xl border border-fuchsia-500/30 text-fuchsia-400 text-sm">
                             <span>☠️</span>
-                            <span>Uploadé par <strong>BlenderFdn</strong> (VIP)</span>
+                            <span>Uploadé par <strong>{torrent?.uploader}</strong></span>
                         </div>
                     </div>
 
@@ -49,10 +63,10 @@ export default function DetailPage() {
 
                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                     {[
-                        {label: 'Taille', val: '2.41 GB'},
-                        {label: 'Seeders', val: '4 205', color: 'text-[var(--primary-accent)]'},
-                        {label: 'Leechers', val: '12', color: 'text-[var(--danger)]'},
-                        {label: 'Date', val: '12 Jan 2025'}
+                        {label: 'Taille', val: `${torrent?.size} GB`},
+                        {label: 'Seeders', val: `${torrent?.se}`, color: 'text-[var(--primary-accent)]'},
+                        {label: 'Leechers', val: `${torrent?.le}`, color: 'text-[var(--danger)]'},
+                        {label: 'Date', val: torrent?.date}
                     ].map((stat, idx) => (
                         <div key={idx} className="bg-black/30 p-4 rounded-2xl border border-white/5 text-center">
                             <span
@@ -85,13 +99,13 @@ export default function DetailPage() {
                         className="bg-black/40 rounded-2xl p-6 font-mono text-sm leading-relaxed text-gray-300 border border-white/10 overflow-y-auto max-h-[400px]">
                         <p className="text-[var(--primary-accent)] mb-2">General Information</p>
                         <p>===================</p>
-                        <p>Title: Big Buck Bunny</p>
-                        <p>Format: Matroska (MKV)</p>
-                        <p>Resolution: 3840 x 2160 (4K)</p>
+                        <p>Title: {torrent?.name}</p>
+                        <p>Format: Matroska (MKV) TODOOOOOOOOOO</p>
+                        <p>Resolution: 3840 x 2160 (4K) TODOOOOOOOOOO</p>
                         <br/>
                         <p className="text-[var(--primary-accent)] mb-2">Plot / Synopsis</p>
                         <p>===================</p>
-                        <p>"Big Buck Bunny" tells the story of a giant rabbit with a heart bigger than himself...</p>
+                        <p>TODOOOOOOOOOO "Big Buck Bunny" tells the story of a giant rabbit with a heart bigger than himself...</p>
                     </div>
                 )}
                 {activeTab === 'files' && (
