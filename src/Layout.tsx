@@ -7,17 +7,14 @@ export default function Layout() {
 
     return (
         <>
-            {/* 1. La magie opère ici : ce composant gère le scroll intelligemment */}
             <ScrollRestoration />
 
-            {/* Ton fond d'écran global */}
             <div className="liquid-bg">
                 <div className="blob blob-1"></div>
                 <div className="blob blob-2"></div>
                 <div className="blob blob-3"></div>
             </div>
 
-            {/* 2. Outlet représente la page actuelle (Search ou Detail) */}
             <Outlet />
 
             <DonationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

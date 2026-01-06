@@ -7,6 +7,9 @@ export interface Torrent {
   se: number;
   le: number;
   type: 'Audio' | 'Vidéo' | 'App' | 'Jeux' | 'Autre';
+  format?: string;
+  resolution?: string;
+  description?: string;
 }
 
 export type CryptoCurrency = 'btc' | 'xmr';

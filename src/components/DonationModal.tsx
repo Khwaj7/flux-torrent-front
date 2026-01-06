@@ -41,7 +41,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
            style={{ background: 'rgba(30, 41, 59, 0.7)' }}>
         
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Soutenir Flux <span className="animate-pulse text-[var(--primary-accent)]">_</span></h2>
+          <h2 className="text-2xl font-bold text-white">Soutenir Zephyr <span className="animate-pulse text-[var(--primary-accent)]">_</span></h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white transition hover:rotate-90">
             <X size={24} />
           </button>

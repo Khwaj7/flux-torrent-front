@@ -1,7 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig(({ command }) => {
+    return {
+        plugins: [react()],
+        // Si on build (pour le VPS), on utilise /zephyr/
+        // Si on développe (npm run dev), on utilise /
+        base: command === 'build' ? '/zephyr/' : '/',
+    }
 })

@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import {Loader2, Magnet, Search} from 'lucide-react';
 import {useTorrents} from "../services/torrent.ts";
+import {Headers} from "../components/Headers.tsx";
 
 export default function SearchPage() {
     const {data: torrents, isLoading, error} = useTorrents();
@@ -20,22 +21,7 @@ export default function SearchPage() {
 
     return (
         <div className="container pt-10 pb-20">
-            <header
-                className="flex justify-between items-center p-6 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-3xl mb-12 shadow-2xl">
-                <div className="text-2xl font-bold tracking-widest flex items-center gap-2">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                         className="text-[var(--primary-accent)]">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                    <span className="text-white">FLUX</span>
-                    <span className="text-[var(--primary-accent)] font-light">TORRENT</span>
-                </div>
-                <nav className="hidden md:flex gap-6 text-sm font-medium">
-                    <a href="#" className="hover:text-white hover:scale-105 transition text-gray-300">Parcourir</a>
-                    <a href="#" className="hover:text-white hover:scale-105 transition text-gray-300">Top 100</a>
-                    <a href="#" className="hover:text-white hover:scale-105 transition text-gray-300">Login</a>
-                </nav>
-            </header>
+            <Headers/>
 
             <section className="text-center mb-16">
                 <h1 className="text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-300">

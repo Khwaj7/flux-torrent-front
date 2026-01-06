@@ -1,10 +1,40 @@
-import { http, HttpResponse, delay } from 'msw'
-import { Torrent } from '../types'
+import {delay, http, HttpResponse} from 'msw'
+import {Torrent} from '../types'
 
 const db: Torrent[] = [
-    { id: 1, name: 'Big Buck Bunny 4K', size: '2.4 GB', uploader: 'BlenderFdn', date: 'Auj.', se: 4205, le: 12, type: 'Vidéo' },
-    { id: 2, name: 'Ubuntu 24.04 LTS', size: '4.8 GB', uploader: 'Canonical', date: 'Hier', se: 8502, le: 340, type: 'App' },
-    { id: 3, name: 'Arch Linux Core', size: '800 MB', uploader: 'ArchUser', date: '01-01', se: 15000, le: 200, type: 'App' },
+    {
+        id: 1,
+        name: 'Je suis une légende',
+        size: '2.4 GB',
+        uploader: 'BlenderFdn',
+        date: 'Auj.',
+        se: 4205,
+        le: 12,
+        type: 'Vidéo',
+        format: 'Matroska (MKV)',
+        resolution: '3840 x 2160 (4K)',
+        description: 'Robert Neville était un brillant scientifique, mais même lui n\'a pu endiguer le terrible virus, créé de la main de l\'homme, qui a dévasté la race humaine. Pour une raison inconnue, Neville est immunisé et reste à ce jour le dernier être humain vivant dans ce qui reste de New York et peut-être du monde. Depuis trois ans, il envoie des messages de détresse à qui voudra bien l\'entendre.\n'
+    },
+    {
+        id: 2,
+        name: 'Ubuntu 24.04 LTS',
+        size: '4.8 GB',
+        uploader: 'Canonical',
+        date: 'Hier',
+        se: 8502,
+        le: 340,
+        type: 'App'
+    },
+    {
+        id: 3,
+        name: 'Arch Linux Core',
+        size: '800 MB',
+        uploader: 'ArchUser',
+        date: '01-01',
+        se: 15000,
+        le: 200,
+        type: 'App'
+    },
 ]
 
 export const handlers = [
@@ -15,14 +45,14 @@ export const handlers = [
     }),
 
     // 2. Route pour le DÉTAIL (GET /api/torrents/:id)
-    http.get('/api/torrents/:id', async ({ params }) => {
+    http.get('/api/torrents/:id', async ({params}) => {
         await delay(500)
 
-        const { id } = params
+        const {id} = params
         const torrent = db.find(t => t.id === Number(id))
 
         if (!torrent) {
-            return new HttpResponse(null, { status: 404 })
+            return new HttpResponse(null, {status: 404})
         }
 
         return HttpResponse.json(torrent)
