@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import { ChevronRight, Download, Loader2, Magnet } from 'lucide-react';
 import { useTorrent } from "../services/torrent.ts";
 import { Headers } from "../components/Headers.tsx";
-import { DetailDescription } from "../components/detail/detailDescription.tsx";
 import { DetailFiles } from '../components/detail/DetailFiles.tsx';
 import { DetailComments } from '../components/detail/comments/DetailComments.tsx';
+import { DetailDescription } from '../components/detail/DetailDescription.tsx';
 
 // On définit un type simple pour les onglets
 type TabType = 'desc' | 'files' | 'coms';
@@ -101,10 +101,10 @@ export default function DetailPage() {
                     </div>
 
                     {activeTab === 'desc' && (
-                        <DetailDescription torrent={torrent}></DetailDescription>
+                        torrent && <DetailDescription torrent={torrent}></DetailDescription>
                     )}
                     {activeTab === 'files' && (
-                        <DetailFiles files={torrent?.files}></DetailFiles>
+                        torrent?.files && <DetailFiles files={torrent?.files}></DetailFiles>
                     )}
                     {activeTab === 'coms' && (
                         <DetailComments></DetailComments>
