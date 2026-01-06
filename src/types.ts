@@ -10,6 +10,14 @@ export interface Torrent {
   format?: string;
   resolution?: string;
   description?: string;
+  files?: File[];
+}
+
+export interface File {
+  id: number;
+  name: string;
+  size: string;
+  extension: string;
 }
 
 export type CryptoCurrency = 'btc' | 'xmr';

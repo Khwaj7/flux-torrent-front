@@ -13,7 +13,21 @@ const db: Torrent[] = [
         type: 'Vidéo',
         format: 'Matroska (MKV)',
         resolution: '3840 x 2160 (4K)',
-        description: 'Robert Neville était un brillant scientifique, mais même lui n\'a pu endiguer le terrible virus, créé de la main de l\'homme, qui a dévasté la race humaine. Pour une raison inconnue, Neville est immunisé et reste à ce jour le dernier être humain vivant dans ce qui reste de New York et peut-être du monde. Depuis trois ans, il envoie des messages de détresse à qui voudra bien l\'entendre.\n'
+        description: 'Robert Neville était un brillant scientifique, mais même lui n\'a pu endiguer le terrible virus, créé de la main de l\'homme, qui a dévasté la race humaine. Pour une raison inconnue, Neville est immunisé et reste à ce jour le dernier être humain vivant dans ce qui reste de New York et peut-être du monde. Depuis trois ans, il envoie des messages de détresse à qui voudra bien l\'entendre.\n',
+        files: [
+            {
+                id: 1,
+                name: 'description',
+                extension: '.NFO',
+                size: '2.3 MB'
+            },
+            {
+                id: 2,
+                name: 'jesuisunelegende',
+                extension: '.MKV',
+                size: '4.5 GB'
+            }
+        ]
     },
     {
         id: 2,

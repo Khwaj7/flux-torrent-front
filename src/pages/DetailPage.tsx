@@ -1,21 +1,24 @@
-import {useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
-import {ChevronRight, Download, Loader2, Magnet} from 'lucide-react';
-import {useTorrent} from "../services/torrent.ts";
-import {Headers} from "../components/Headers.tsx";
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { ChevronRight, Download, Loader2, Magnet } from 'lucide-react';
+import { useTorrent } from "../services/torrent.ts";
+import { Headers } from "../components/Headers.tsx";
+import { DetailDescription } from "../components/detail/detailDescription.tsx";
+import { DetailFiles } from '../components/detail/DetailFiles.tsx';
+import { DetailComments } from '../components/detail/comments/DetailComments.tsx';
 
 // On définit un type simple pour les onglets
 type TabType = 'desc' | 'files' | 'coms';
 
 export default function DetailPage() {
-    const {id} = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>();
     const [activeTab, setActiveTab] = useState<TabType>('desc');
-    const {data: torrent, isLoading, error} = useTorrent(id);
+    const { data: torrent, isLoading, error } = useTorrent(id);
 
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen text-[var(--primary-accent)]">
-                <Loader2 className="animate-spin w-10 h-10"/>
+                <Loader2 className="animate-spin w-10 h-10" />
             </div>
         );
     }
@@ -33,9 +36,9 @@ export default function DetailPage() {
 
                     <nav className="flex items-center gap-2 text-sm text-[var(--text-muted)] mb-6">
                         <Link to="/" className="hover:text-[var(--primary-accent)]">Accueil</Link>
-                        <ChevronRight size={14}/>
+                        <ChevronRight size={14} />
                         <span>Vidéo</span>
-                        <ChevronRight size={14}/>
+                        <ChevronRight size={14} />
                         <span className="text-white">Films HD</span>
                     </nav>
 
@@ -55,25 +58,25 @@ export default function DetailPage() {
                         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                             <button
                                 className="flex-1 px-6 py-3 bg-[var(--primary-accent)] text-black font-bold rounded-2xl flex items-center justify-center gap-2 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,255,157,0.3)] transition">
-                                <Magnet size={20}/> Obtenir le Magnet
+                                <Magnet size={20} /> Obtenir le Magnet
                             </button>
                             <button
                                 className="flex-1 px-6 py-3 border border-white/20 text-white font-medium rounded-2xl flex items-center justify-center gap-2 hover:bg-white/5 transition">
-                                <Download size={20}/> .Torrent
+                                <Download size={20} /> .Torrent
                             </button>
                         </div>
                     </header>
 
                     <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                         {[
-                            {label: 'Taille', val: `${torrent?.size} GB`},
-                            {label: 'Seeders', val: `${torrent?.se}`, color: 'text-[var(--primary-accent)]'},
-                            {label: 'Leechers', val: `${torrent?.le}`, color: 'text-[var(--danger)]'},
-                            {label: 'Date', val: torrent?.date}
+                            { label: 'Taille', val: `${torrent?.size} GB` },
+                            { label: 'Seeders', val: `${torrent?.se}`, color: 'text-[var(--primary-accent)]' },
+                            { label: 'Leechers', val: `${torrent?.le}`, color: 'text-[var(--danger)]' },
+                            { label: 'Date', val: torrent?.date }
                         ].map((stat, idx) => (
                             <div key={idx} className="bg-black/30 p-4 rounded-2xl border border-white/5 text-center">
-                            <span
-                                className="text-xs text-[var(--text-muted)] uppercase tracking-wider block mb-1">{stat.label}</span>
+                                <span
+                                    className="text-xs text-[var(--text-muted)] uppercase tracking-wider block mb-1">{stat.label}</span>
                                 <span className={`text-xl font-bold ${stat.color || 'text-white'}`}>{stat.val}</span>
                             </div>
                         ))}
@@ -81,9 +84,9 @@ export default function DetailPage() {
 
                     <div className="mb-6 border-b border-[var(--glass-border)] flex gap-6">
                         {[
-                            {id: 'desc', label: 'Description'},
-                            {id: 'files', label: 'Fichiers (2)'},
-                            {id: 'coms', label: 'Avis'}
+                            { id: 'desc', label: 'Description' },
+                            { id: 'files', label: 'Fichiers (2)' },
+                            { id: 'coms', label: 'Avis' }
                         ].map(tab => (
                             <button
                                 key={tab.id}
@@ -98,28 +101,13 @@ export default function DetailPage() {
                     </div>
 
                     {activeTab === 'desc' && (
-                        <div
-                            className="bg-black/40 rounded-2xl p-6 font-mono text-sm leading-relaxed text-gray-300 border border-white/10 overflow-y-auto max-h-[400px]">
-                            <p className="text-[var(--primary-accent)] mb-2">General Information</p>
-                            <p>===================</p>
-                            <p>Title: {torrent?.name}</p>
-                            <p>Format: Matroska (MKV) TODOOOOOOOOOO</p>
-                            <p>Resolution: 3840 x 2160 (4K) TODOOOOOOOOOO</p>
-                            <br/>
-                            <p className="text-[var(--primary-accent)] mb-2">Plot / Synopsis</p>
-                            <p>===================</p>
-                            <p>TODOOOOOOOOOO "Big Buck Bunny" tells the story of a giant rabbit with a heart bigger than
-                                himself...</p>
-                        </div>
+                        <DetailDescription torrent={torrent}></DetailDescription>
                     )}
                     {activeTab === 'files' && (
-                        <div
-                            className="bg-black/40 rounded-2xl p-6 font-mono text-sm leading-relaxed text-gray-300 border border-white/10 overflow-y-auto max-h-[400px]">
-                            <p className="text-[var(--primary-accent)] mb-2">General Information</p>
-                            <p>===================</p>
-                            <p>Fichier 1 : NFO</p>
-                            <p>Fichier 2 : .MP4</p>
-                        </div>
+                        <DetailFiles files={torrent?.files}></DetailFiles>
+                    )}
+                    {activeTab === 'coms' && (
+                        <DetailComments></DetailComments>
                     )}
                 </main>
             </div>
