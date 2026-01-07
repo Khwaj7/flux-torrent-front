@@ -1,12 +1,13 @@
 export interface Torrent {
   id: number;
   name: string;
+  image: string;
   size: string;
   uploader: string;
   date: string;
   se: number;
   le: number;
-  type: 'Audio' | 'Vidéo' | 'App' | 'Jeux' | 'Autre';
+  type: 'Adulte' | 'Audio' | 'Vidéo' | 'App' | 'Jeux' | 'Autre';
   format?: string;
   resolution?: string;
   description?: string;
