@@ -1,41 +1,50 @@
-import { useState, useMemo } from "react";
-import { Torrent } from "../services/torrent";
+import {useState, useMemo, useEffect} from 'react';
+import {Torrent} from "../types.ts";
+
+const ITEMS_PER_PAGE = 20;
 
 export const useTorrentSearch = (torrents: Torrent[] | undefined) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeCategory, setActiveCategory] = useState("Tout");
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeCategory, setActiveCategory] = useState('Tout');
+    const [currentPage, setCurrentPage] = useState(1);
 
-  // useMemo mémorise le résultat du filtre.
-  // Il ne recalcule que si 'torrents', 'searchTerm' ou 'activeCategory' change.
-  const filteredTorrents = useMemo(() => {
-    if (!torrents) return [];
+    const filteredTorrents = useMemo(() => {
+        if (!torrents) return [];
+        return torrents.filter(torrent => {
+            const term = searchTerm.toLowerCase();
+            const matchesSearch = torrent.name.toLowerCase().includes(term) ||
+                torrent.uploader.toLowerCase().includes(term);
+            const matchesCategory = activeCategory === 'Tout' || torrent.type === activeCategory;
+            return matchesSearch && matchesCategory;
+        });
+    }, [torrents, searchTerm, activeCategory]);
 
-    return torrents.filter((torrent) => {
-      const term = searchTerm.toLowerCase();
-      const matchesSearch =
-        torrent.name.toLowerCase().includes(term) ||
-        torrent.uploader.toLowerCase().includes(term); // J'ai ajouté la recherche par uploader aussi !
+    const totalPages = Math.ceil(filteredTorrents.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paginatedResults = filteredTorrents.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const goToNextPage = () => setCurrentPage(p => Math.min(p + 1, totalPages));
+    const goToPrevPage = () => setCurrentPage(p => Math.max(p - 1, 1));
 
-      const matchesCategory =
-        activeCategory === "Tout" || torrent.type === activeCategory;
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, activeCategory]);
 
-      return matchesSearch && matchesCategory;
-    });
-  }, [torrents, searchTerm, activeCategory]);
-
-  // Fonctions utilitaires pour reset
-  const resetSearch = () => {
-    setSearchTerm("");
-    setActiveCategory("Tout");
-  };
-
-  return {
-    searchTerm,
-    setSearchTerm,
-    activeCategory,
-    setActiveCategory,
-    results: filteredTorrents,
-    resetSearch,
-    isEmpty: filteredTorrents.length === 0 && torrents && torrents.length > 0,
-  };
+    return {
+        activeCategory,
+        currentPage,
+        goToNextPage,
+        goToPrevPage,
+        isEmpty: filteredTorrents.length === 0 && (torrents?.length || 0) > 0,
+        results: paginatedResults,
+        resetSearch: () => {
+            setSearchTerm('');
+            setActiveCategory('Tout');
+            setCurrentPage(1);
+        },
+        searchTerm,
+        setSearchTerm,
+        setActiveCategory,
+        totalResults: filteredTorrents.length,
+        totalPages,
+    };
 };
