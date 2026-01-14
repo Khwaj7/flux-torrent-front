@@ -21,19 +21,18 @@ const fetchTorrentById = async (id: string): Promise<Torrent> => {
 };
 
 // --- CUSTOM HOOKS (TanStack Query) ---
-// C'est ça que tes composants vont utiliser
 
 export const useTorrents = () => {
     return useQuery({
-        queryKey: ['torrents'], // La clé unique du cache pour la liste
+        queryKey: ['torrents'],
         queryFn: fetchTorrents,
     });
 };
 
 export const useTorrent = (id: string | undefined) => {
     return useQuery({
-        queryKey: ['torrent', id], // Clé unique par ID (ex: ['torrent', '12'])
-        queryFn: () => fetchTorrentById(id!), // On lance le fetch
-        enabled: !!id, // Ne lance la requête que si l'ID existe
+        queryKey: ['torrent', id],
+        queryFn: () => fetchTorrentById(id!),
+        enabled: !!id,
     });
 };
