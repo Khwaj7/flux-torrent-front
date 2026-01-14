@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Loader2, Magnet, Trophy, Medal, TrendingUp } from 'lucide-react';
+import { Loader2, Magnet, Trophy, Medal } from 'lucide-react';
 import { useTorrents } from "../services/torrent.ts";
 import { Headers } from "../components/Headers.tsx";
 import { TYPE_STYLES } from '../styles/TypeStyles.ts';

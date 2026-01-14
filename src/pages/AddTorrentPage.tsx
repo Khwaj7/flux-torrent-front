@@ -1,13 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  UploadCloud,
-  FileUp,
-  X,
-  CheckCircle2,
-  AlertCircle,
-} from "lucide-react";
-import { Headers } from "../components/Headers.tsx";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {FileUp, UploadCloud, X,} from "lucide-react";
+import {Headers} from "../components/Headers.tsx";
 
 export default function AddTorrentPage() {
   const navigate = useNavigate();
@@ -15,7 +9,6 @@ export default function AddTorrentPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Formulaire basique
   const [formData, setFormData] = useState({
     name: "",
     category: "Vidéo",
@@ -23,7 +16,7 @@ export default function AddTorrentPage() {
     image: "",
   });
 
-  const categories = ["Vidéo", "Jeux", "Audio", "Apps", "Adulte"];
+  const categories = ["Vidéo", "Jeux", "Audio", "App", "Adulte"];
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
